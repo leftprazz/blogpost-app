@@ -1,8 +1,8 @@
-## Blogpost App
+# Blogpost App
 
 This repository contains a project named **blogpost-app** that consists of two services running in Docker containers: `blogpost_app` and `couchserver`. Before running the Docker Compose, users need to build the project image, tag it as desired, and then adjust the image name and tag in the Docker Compose file.
 
-### Docker Compose Setup
+## Docker Compose Setup
 
 1. **Build the Docker Image:**
 
@@ -48,7 +48,7 @@ This repository contains a project named **blogpost-app** that consists of two s
    docker stack deploy -c docker-compose.yml your_app_name
    ```
 
-### Aptible Deployment
+## Aptible Deployment
 
 To deploy the project on Aptible, follow these steps:
 
@@ -67,3 +67,146 @@ To deploy the project on Aptible, follow these steps:
    Replace `your_app_name`, `your_image_name:your_tag`, and `your_environment_name` with your specific app name, Docker image details, and environment name.
 
 Now, your **blogpost-app** is deployed and running. Access the application at [http://your_aptible_app_url](http://your_aptible_app_url).
+
+## Blogpost App API Endpoints
+
+This section provides details on the API endpoints exposed by the **blogpost-app**.
+
+### a. Create a New Blog Post
+
+**Endpoint:** POST /posts
+
+**Description:** Creates a new blog post.
+
+**Request Body:**
+
+```json
+{
+  "title": "String",
+  "description": "String",
+  "author": "String"
+}
+```
+
+**Example:**
+
+```http
+POST http://localhost:4000/posts
+{
+  "title": "Sample Title",
+  "description": "Sample Description",
+  "author": "Pras"
+}
+```
+
+### b. Get All Blog Posts
+
+**Endpoint:** GET /posts
+
+**Description:** Retrieves all blog posts.
+
+**Response:**
+
+```json
+[
+  {
+    "id": "String",
+    "key": "String",
+    "value": {
+      "rev": "String"
+    },
+    "doc": {
+      "_id": "String",
+      "_rev": "String",
+      "title": "String",
+      "description": "String",
+      "author": "String",
+      "createdAt": "Date",
+      "updatedAt": "Date"
+    }
+  }
+]
+```
+
+**Example:**
+
+```http
+GET http://localhost:4000/posts
+```
+
+### c. Get a Specific Blog Post
+
+**Endpoint:** GET /posts/:id
+
+**Description:** Retrieves a specific blog post by its ID.
+
+**Parameters:**
+
+- id: ID of the blog post.
+
+**Response:**
+
+```json
+{
+  "_id": "String",
+  "_rev": "String",
+  "title": "String",
+  "description": "String",
+  "author": "String",
+  "createdAt": "Date",
+  "updatedAt": "Date"
+}
+```
+
+**Example:**
+
+```http
+GET http://localhost:4000/posts/your-post-id
+```
+
+### d. Update a Blog Post
+
+**Endpoint:** PUT /posts/:id
+
+**Description:** Updates a specific blog post by its ID.
+
+**Parameters:**
+
+- id: ID of the blog post.
+
+**Request Body:**
+
+```json
+{
+  "title": "String",
+  "description": "String"
+}
+```
+
+**Example:**
+
+```http
+PUT http://localhost:4000/posts/your-post-id
+{
+  "title": "Updated Title",
+  "description": "Updated Description"
+}
+```
+
+### e. Delete a Blog Post
+
+**Endpoint:** DELETE /posts/:id
+
+**Description:** Deletes a specific blog post by its ID.
+
+**Parameters:**
+
+- id: ID of the blog post.
+
+**Example:**
+
+```http
+DELETE http://localhost:4000/posts/your-post-id
+```
+
+Please replace "your-post-id" with the actual ID of the blog post when testing the GET, PUT, and DELETE requests.
