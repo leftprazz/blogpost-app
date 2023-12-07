@@ -1,17 +1,17 @@
 on:
   push:
-      branches: [ main ]
+    branches: [main]
 
 env:
   IMAGE_NAME: user/app:latest
   APTIBLE_ENVIRONMENT: "lp-staging"
   APTIBLE_APP: "blogpost-pp"
 
-
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
+    steps:
       # Allow multi platform builds.
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
