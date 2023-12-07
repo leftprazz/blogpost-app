@@ -5,7 +5,7 @@ on:
 env:
   IMAGE_NAME: imprazz/blogpost-app:latest
   APTIBLE_ENVIRONMENT: "lp-staging"
-  APTIBLE_APP: "blogpost-pp"
+  APTIBLE_APP: "blogpost-app"
 
 jobs:
   deploy:
