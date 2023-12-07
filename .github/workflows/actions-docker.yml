@@ -3,7 +3,7 @@ on:
     branches: [main]
 
 env:
-  IMAGE_NAME: user/app:latest
+  IMAGE_NAME: imprazz/blogpost-app:latest
   APTIBLE_ENVIRONMENT: "lp-staging"
   APTIBLE_APP: "blogpost-pp"
 
