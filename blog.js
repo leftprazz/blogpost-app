@@ -48,7 +48,7 @@ app.post("/posts", async (req, res) => {
       res.json(doc);
     } catch (err) {
       console.error(err);
-      res.status(404).send("Post not found");
+      res.status(404).send("Post not found.");
     }
   });
   
