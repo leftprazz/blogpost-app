@@ -1,5 +1,9 @@
+
 # Use an official Node.js runtime as the base image
 FROM node:16-alpine
+
+ARG COUCHDB_CREDENTIALS
+ENV COUCHDB_CREDENTIALS=$COUCHDB_CREDENTIALS
 
 # Set the working directory in the container
 WORKDIR /usr/src/app
