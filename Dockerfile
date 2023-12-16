@@ -8,7 +8,7 @@ WORKDIR /usr/src/app
 COPY package*.json ./
 
 # Install app dependencies
-RUN npm install
+RUN npm install && npm install dotenv
 
 # Copy the rest of the application files to the working directory
 COPY . .

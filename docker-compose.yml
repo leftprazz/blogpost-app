@@ -1,10 +1,10 @@
 version: '3'
 services:
   blogpost_app:
-    image: imprazz/blogpost-app:latest
+    image: your_image_name:your_tag
     ports:
       - "4000:4000"
-  
+
   couchserver:
     image: couchdb
     ports:

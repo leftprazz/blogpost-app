@@ -1,12 +1,14 @@
 const express = require("express");
-const nano = require("nano")("https://admin:password@couchdb.leftprazz.com");
+const nano = require("nano");
+const dotenv = require("dotenv");
+
+dotenv.config();
+
+const dbUrl = process.env.DATABASE_URL;
+const dbName = process.env.DATABASE_NAME || "blogposts";
+const db = nano(dbUrl).use(dbName);
 const app = express();
 const port = 4000;
-
-// Middleware to parse JSON data
-app.use(express.json());
-
-const db = nano.use("blogposts");
 
 // Create a new blog post
 app.post("/posts", async (req, res) => {
