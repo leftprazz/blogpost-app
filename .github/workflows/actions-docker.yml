@@ -30,7 +30,7 @@ jobs:
         with:
           push: true
           tags: ${{ env.IMAGE_NAME }}
-          build-args: COUCHDB_CREDENTIALS=${{ secrets.COUCHDB_CREDENTIALS }}
+          build-args: COUCHDB_CREDENTIALS=${{ env.COUCHDB_CREDENTIALS }}
 
       - name: Deploy to Aptible
         uses: aptible/aptible-deploy-action@v1
