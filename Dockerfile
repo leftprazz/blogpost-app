@@ -20,5 +20,7 @@ COPY . .
 # Expose the port the app runs on
 EXPOSE 4000
 
+RUN echo "DATABASE_URL=https://${COUCHDB_CREDENTIALS}@couchdb.leftprazz.com" >> .env
+
 # Define the command to run the app
 CMD ["node", "blog.js"]
