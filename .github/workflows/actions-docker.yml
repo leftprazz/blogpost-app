@@ -6,8 +6,6 @@ env:
   IMAGE_NAME: ${{ secrets.IMAGE_NAME }}
   APTIBLE_ENVIRONMENT: ${{ secrets.APTIBLE_ENVIRONMENT }}
   APTIBLE_APP: ${{ secrets.APTIBLE_APP }}
-  COUCHDB_CREDENTIALS: ${{ secrets.COUCHDB_CREDENTIALS }}
-
 
 jobs:
   deploy:
@@ -28,6 +26,10 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      # Load Aptible secrets into environment
+      - name: Load Aptible Environment Variables
+        run: echo "COUCHDB_CREDENTIALS=${{ secrets.COUCHDB_CREDENTIALS }}" >> $GITHUB_ENV
 
       # Build image using default dockerfile.
       - name: Build and push
