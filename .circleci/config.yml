@@ -27,7 +27,7 @@ jobs:
           name: Deployment image name env
           command: |
             echo 'export COMMIT_SHORT=$(echo $CIRCLE_SHA1 | cut -c1-7 )' >> IMG_ENV
-            echo 'export IMAGE_NAME=gcr.io/$PROJECT/$CIRCLE_PROJECT_REPONAME:$CIRCLE_BRANCH-$COMMIT_SHORT' >> IMG_ENV
+            echo 'export IMAGE_NAME=$LP_REGISTRY_PATH$CIRCLE_PROJECT_REPONAME:$CIRCLE_BRANCH-$COMMIT_SHORT' >> IMG_ENV
             echo -n $LP_REGISTRY_SA | base64 --decode > LP_REGISTRY_SA.json
             echo -n $CP_SA | base64 --decode > CP_SA.json
 
