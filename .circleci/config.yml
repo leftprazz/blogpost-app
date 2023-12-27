@@ -27,9 +27,9 @@ jobs:
           name: Deployment image name env
           command: |
             echo 'export COMMIT_SHORT=$(echo $CIRCLE_SHA1 | cut -c1-7 )' >> IMG_ENV
-            echo 'export IMAGE_NAME=gcr.io/YOUR_PROJECT_ID/YOUR_IMAGE_NAME:$CIRCLE_BRANCH-$COMMIT_SHORT' >> IMG_ENV
+            echo 'export IMAGE_NAME=gcr.io/$PROJECT/$CIRCLE_PROJECT_REPONAME:$CIRCLE_BRANCH-$COMMIT_SHORT' >> IMG_ENV
             echo -n $LP_REGISTRY_SA | base64 --decode > LP_REGISTRY_SA.json
-            echo -n $LP_REGISTRY_SA | base64 --decode > LP_REGISTRY_SA.json
+            echo -n $CP_SA | base64 --decode > CP_SA.json
 
       - run:
           name: Build docker image
@@ -39,9 +39,11 @@ jobs:
             docker build --build-arg APP_ENV=$APP_ENV -t $IMAGE_NAME .
 
       - run:
-          name: Docker push to Google Container Registry
+          name: Docker push to Artifact Registry
           command: |
             source IMG_ENV
+            gcloud auth activate-service-account --key-file LP_REGISTRY_SA.json
+            cat LP_REGISTRY_SA.json | docker login -u _json_key --password-stdin https://asia-docker.pkg.dev
             gcloud auth configure-docker
             docker push $IMAGE_NAME
 
@@ -49,13 +51,13 @@ jobs:
           name: Deploy to Cloud Run
           command: |
             source IMG_ENV
-            gcloud auth activate-service-account --key-file=LP_REGISTRY_SA.json
-            gcloud config set project YOUR_PROJECT_ID
-            gcloud config set run/region YOUR_REGION
+            gcloud auth activate-service-account --key-file=CP_SA.json
+            gcloud config set project $PROJECT
+            gcloud config set run/region $REGION
             gcloud config set run/platform managed
 
             gcloud builds submit --tag $IMAGE_NAME
-            gcloud run deploy YOUR_SERVICE_NAME --image $IMAGE_NAME --platform managed
+            gcloud run deploy $SERVICE_NAME --image $IMAGE_NAME --platform managed
 
       - run: exit 0
 
