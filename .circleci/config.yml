@@ -36,7 +36,7 @@ jobs:
           command: |
             source IMG_ENV
             source APP_ENV
-            docker build --build-arg APP_ENV=$APP_ENV -t $IMAGE_NAME .
+            docker build --build-arg APP_ENV=$APP_ENV --build-arg COUCHDB_CREDENTIALS=$COUCHDB_CREDENTIALS -t $IMAGE_NAME .
 
       - run:
           name: Docker push to Artifact Registry
@@ -55,17 +55,15 @@ jobs:
             gcloud config set project $PROJECT
             gcloud config set run/region $REGION
             gcloud config set run/platform managed
-
-            #gcloud builds submit --tag $IMAGE_NAME
             gcloud run deploy $SERVICE_NAME --image $IMAGE_NAME --platform managed
 
       - run: exit 0
 
-      # - slack/status: #ci-deployment
-      #     channel: "C05SG7YU8HY"
-      #     failure_message: "Hi $CIRCLE_USERNAME $CIRCLE_PR_USERNAME, Proses $CIRCLE_JOB $CIRCLE_PROJECT_REPONAME Branch $CIRCLE_BRANCH Gagal, Mohon untuk dicek kembali Workflow CInya, Thanks"
-      #     success_message: "Hi $CIRCLE_USERNAME $CIRCLE_PR_USERNAME, Proses $CIRCLE_JOB $CIRCLE_PROJECT_REPONAME $CIRCLE_BRANCH Berhasil"
-      #     webhook: $WEBHOOK_SLACK
+      - slack/status: #ci-deployment
+          channel: "C05SG7YU8HY"
+          failure_message: "Hi $CIRCLE_USERNAME $CIRCLE_PR_USERNAME, Proses $CIRCLE_JOB $CIRCLE_PROJECT_REPONAME Branch $CIRCLE_BRANCH Gagal, Mohon untuk dicek kembali Workflow CInya, Thanks"
+          success_message: "Hi $CIRCLE_USERNAME $CIRCLE_PR_USERNAME, Proses $CIRCLE_JOB $CIRCLE_PROJECT_REPONAME $CIRCLE_BRANCH Berhasil"
+          webhook: $WEBHOOK_SLACK
 
 workflows:
   version: 2
