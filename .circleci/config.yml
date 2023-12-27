@@ -56,7 +56,7 @@ jobs:
             gcloud config set run/region $REGION
             gcloud config set run/platform managed
 
-            gcloud builds submit --tag $IMAGE_NAME
+            #gcloud builds submit --tag $IMAGE_NAME
             gcloud run deploy $SERVICE_NAME --image $IMAGE_NAME --platform managed
 
       - run: exit 0
